@@ -1,0 +1,24 @@
+<?php
+
+include_once("conexao-listar-produtos.php");
+
+if(isset($_POST['submit'])){
+    $countfiles = count($_FILES['imagem']['name']);
+
+
+
+$dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+} else {
+    $query_produto = "INSERT INTO produtos (nome, descricao, preco, precovip, estoque, vip, images, categoria, custo) VALUES (:nome, :descricao, :preco, :precovip, :estoque, :vip, :imagem, :categoria, :custo)";
+    $cad_produto = $conn->prepare($query_produto);
+    $cad_produto->bindParam(':nome', $dados['nome']);
+    $cad_produto->bindParam(':descricao', $dados['descricao']);
+    $cad_produto->bindParam(':preco', $dados['preco']);
+    $cad_produto->bindParam(':precovip', $dados['precovip']);
+    $cad_produto->bindParam(':estoque', $dados['estoque']);
+    $cad_produto->bindParam(':vip', $dados['vip']);
+    $cad_produto->bindParam(':imagem', $countfiles, ['name']);
+    $cad_produto->bindParam(':categoria', $dados['categoria']);
+    $cad_produto->bindParam(':custo', $dados['custo']);
+
